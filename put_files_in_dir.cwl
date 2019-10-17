@@ -24,7 +24,12 @@ outputs:
 expression: |
   ${
     var output_files = [];
-    var input_files = inputs.files.filter(single_file => String(single_file).toUpperCase() != 'NONE');
+    var nonEmpty = function (s) {return String(s).toUpperCase() != 'NONE'};
+    
+    if(!Array.isArray(inputs.files))
+       inputs.files=[inputs.files];
+    
+    var input_files = inputs.files.filter(nonEmpty);
 
     for (var i = 0; i < input_files.length; i++) {
       if(input_files[i]){
